@@ -5,14 +5,20 @@ import ButtonGroup from "./UI/ButtonGroup";
 import OutlineBadge from "./UI/OutlineBadge";
 
 const ViewController = (): ReactElement => {
-  const [userPersona, setUserPersona] = useState("");
+  const [userPersona, setUserPersona] = useState(
+    localStorage.getItem("persona")
+  );
 
   const croct = useCroct();
+
+  const savePersona = (persona: string) =>
+    localStorage.setItem("persona", persona);
 
   const setPersona = useCallback(
     (persona: string) => {
       croct.user.edit().set("custom.persona", persona).save();
       setUserPersona(persona);
+      savePersona(persona);
       window.location.reload();
     },
     [croct]
